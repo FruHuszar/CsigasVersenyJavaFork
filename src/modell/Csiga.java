@@ -1,5 +1,7 @@
 package modell;
 
+import java.util.Objects;
+
 public class Csiga {
     private static final char UT_SZIMPLA = '-';
     private static final char UT_DUPLA = '=';
@@ -32,12 +34,24 @@ public class Csiga {
     private String megtettUt;
     private boolean gyorsito;
 
+    public Csiga() {
+        this(RESET);
+    }
+    
     public Csiga(String szin) {
         this.szin = szin;
         setSzinKod();
         megtettUt = "";
         gyorsito = false;
     }
+    
+    public Csiga(String szin, String megtettUt, boolean gyorsito) {
+        this.szin = szin;
+        setSzinKod();
+        this.megtettUt = megtettUt;
+        this.gyorsito = gyorsito;
+    }
+    
 
     public String getSzin() {
         return szin;
@@ -62,7 +76,7 @@ public class Csiga {
     private void setSzinKod() {
         switch(szin){
             default: 
-                szinKod = RED;
+                szinKod = RESET;
                 break;
             case "piros":
                 szinKod = RED;
@@ -85,5 +99,37 @@ public class Csiga {
             megtettUt += jel;
         }
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 37 * hash + Objects.hashCode(this.szin);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Csiga other = (Csiga) obj;
+        return Objects.equals(this.szin, other.szin);
+    }
+
     
+    /**
+     * Visszaadja az obj szöveges reprezentációját
+     * többsoros komment, megjelölhető extrákal, és így a ctrl+space való kiválasztásnál is megjelenik!!!
+     * @return obj olvasható szöveg formában
+     */
+    @Override
+    public String toString() {
+        return "Csiga{" + "szin=" + szin + ", megtettUt=" + megtettUt + ", gyorsito=" + gyorsito + '}';
+    }
 }
